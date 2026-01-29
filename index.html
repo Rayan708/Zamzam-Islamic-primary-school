@@ -88,7 +88,6 @@ footer p { margin:8px 0; }
   line-height: 1.6;
 }
  
-}
 /* Make slider text responsive */
 @media (max-width:768px){
   .slide-text {
@@ -136,7 +135,7 @@ footer p { margin:8px 0; }
 .animate-left.in-view {
   opacity: 1;
   transform: translateX(0);
-}5
+}
 /* Buttons */
 .btn-primary { display:inline-block; padding:10px 20px; background:#0a3d62; color:red; border:none; border-radius:25px; cursor:pointer; transition:0.3s; }
 .btn-primary:hover { background:#062c44; }
@@ -647,13 +646,7 @@ const observer = new IntersectionObserver((entries)=>{
         el.style.opacity="1";
         el.style.transform="translateY(0) scale(1)";
       });
-    } else {
-      const content = entry.target.querySelectorAll('.section-content, .about-images img, .tours-images img, .slide-text');
-      content.forEach(el=>{
-        el.style.opacity="0";
-        el.style.transform="translateY(20px) scale(0.95)";
-      });
-    }
+  }
   });
 }, observerOptions);
 // Animate left elements
