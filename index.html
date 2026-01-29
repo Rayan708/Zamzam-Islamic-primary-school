@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zamzam Islamic Primary School</title>
+
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Merriweather:wght@700&display=swap" rel="stylesheet">
+
+<style>
+/* ===== GLOBAL ===== */
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Poppins', sans-serif; scroll-behavior:smooth; background:white; color:black; }
+a { text-decoration:none; color:inherit; }
+section { padding:80px 20px; min-height:100vh; background:#eef4fb; position:relative; overflow:hidden; }
+
+/* ===== HEADER ===== */
+header { background: white; color:white; }
+.top-header { display:flex; justify-content:center; align-items:center; gap:10px; height:60px; }
+.school-logo { max-width:100%; max-height:100%; }
+.school-name { font-family:'Merriweather', serif; font-size:20px; font-weight:bold; text-align:center;color: rgb(150,100,10); }
+.bottom-header { height:50px; display:flex; align-items:center; padding-left:20px; background:#0a3d62; color:white; }
+.menu-btn { font-size:26px; cursor:pointer; }
+
+/* ===== NAVBAR ===== */
+
+/* ===== FOOTER ===== */
+footer { background:#rgb(150,100,10); color:white; padding:40px 20px; text-align:center; }
+footer p { margin:8px 0; }
+
+/* ===== CONTENT ===== */
+.section-content { opacity:0; transform: translateY(20px) scale(0.95); transition: all 0.8s ease; }
+.about-images, .tours-images { display:flex; flex-wrap:wrap; gap:15px; justify-content:center; margin-top:20px; }
+.about-images img, .tours-images img { width:220px; height:150px; object-fit:cover; border-radius:10px; opacity:0; transform: translateY(20px) scale(0.95); transition: all 0.8s ease; }
+
+  /* ===== SLIDER LAYOUT STABILITY FIX ===== */
+#slider-section {
+  width: 100%;
+  height: 70vh;          /* fixed height so page never jumps */
+  min-height: 400px;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+}
+
+#slider-section .section-content {
+  height: 100%;
+  padding: 0;
+}
+
+.slider-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.slide {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: none;
+}
+
+.slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;     /* KEY: keeps images same height */
+  display: block;
+}
+
+.slide-text {
+  position: absolute;
+  inset: 0;
+
+  display: flex;
+  align-items: flex-end;      /* 🔽 pushes text to bottom */
+  justify-content: center;    /* ⬅➡ centers horizontally */
+
+  padding: 0 12% 12%;           /* bottom breathing space */
+  text-align: center;
+
+
+  color: #fff;
+  font-size: 25px;
+  font-weight: 800;
+  line-height: 1.6;
+}
+ 
+}
+/* Make slider text responsive */
+@media (max-width:768px){
+  .slide-text {
+    font-size: 14px;
+    padding: 10px;
+  }
+}
+  
+  /* Make sure section-content is ready for animation */
+#welcome-section .section-content {
+  opacity: 0;                 /* start hidden */
+  transform: translateY(50px); /* start slightly below */
+  transition: all 0.8s ease;  /* smooth animation */
+}
+
+/* Images in welcome section */
+#welcome-section .about-images {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+#welcome-section .about-images img {
+  width: calc(50% - 15px);  /* two per row */
+  height: auto;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+/* Responsive images */
+@media (max-width:768px){
+  #welcome-section .about-images img {
+    width: 100%;  /* stack on small screens */
+  }
+}
+  /* Initial state: hidden and shifted left */
+.animate-left {
+  opacity: 0;
+  transform: translateX(-50px);
+  transition: all 0.8s ease;
+}
+
+/* When in view: visible and normal position */
+.animate-left.in-view {
+  opacity: 1;
+  transform: translateX(0);
+}5
+/* Buttons */
+.btn-primary { display:inline-block; padding:10px 20px; background:#0a3d62; color:red; border:none; border-radius:25px; cursor:pointer; transition:0.3s; }
+.btn-primary:hover { background:#062c44; }
+
+/* RESPONSIVE */
+@media (max-width:768px) {
+  .about-images, .tours-images { flex-direction:column; align-items:center; }
+  .about-images img, .tours-images img { width:90%; height:auto; }
+}
+  /* Footer animation */
+footer .footer-content {
+  opacity: 0;
+  transform: translateY(50px); /* start lower */
+  transition: all 0.8s ease;
+}
+  /* Footer section styling */
+.footer-section {
+  padding: 40px 20px;  /* space inside footer */
+  min-height: auto;    /* remove 100vh from normal sections */
+  background: #0a3d62; 
+  color:white;
+}
+
+/* Footer animation */
+.footer-section .section-content {
+  opacity: 0;
+  transform: translateY(50px); /* start lower */
+  transition: all 0.8s ease;
+}
+  /* Section headings same color as footer */
+section h2 {
+  color: #0a3d62; /* same as footer background color */
+  font-family: 'Merriweather', serif;
+  margin-bottom: 20px;
+  text-align: center;
+}
+ /* Section styling */
+#activities-section {
+  padding: 60px 20px;
+  background: #f5f8fa;  /* light background to contrast with header/footer */
+  text-align: center;
+}
+
+#activities-section h2 {
+  font-size: 36px;
+  color: #0a3d62;  /* same as footer/header color */
+  margin-bottom: 20px;
+}
+
+#activities-section p {
+  font-size: 18px;
+  max-width: 800px;
+  margin: 0 auto 40px auto;
+  color: #333;
+}
+
+/* Activities container layout */
+.activities-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+}
+
+/* Individual activity card */
+.activity-card {
+  width: 300px;
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.activity-card:hover {
+  transform: translateY(-5px);
+}
+
+/* Images */
+.activity-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  display: block;
+}
+
+/* Activity name overlay */
+.activity-name {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  background: rgba(0,0,0,0.6);
+  color: #fff;
+  font-weight: 700;
+  padding: 10px 0;
+  font-size: 16px;
+}
+
+.activity-card:hover .activity-name {
+  background: rgba(0,0,0,0.8);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .activity-card {
+    width: 90%;
+  }
+}
+  #admission-section {
+  position: relative;
+  padding: 80px 20px;
+  color: #fff; /* text white for readability */
+  text-align: center;
+  
+  /* Background image */
+  background-image: url('admission-bg.jpg'); /* replace with your image path */
+  background-size: cover;     /* makes image cover entire section */
+  background-position: center;
+  background-repeat: no-repeat;
+  
+  /* Dark overlay for text readability */
+  background-blend-mode: darken;
+  background-color: rgba(0,0,0,0.5); /* adjust opacity as needed */
+  
+  border-radius: 15px;
+}
+
+/* Optional: keep the button styling consistent */
+#admission-section .btn-primary {
+  display: inline-block;
+  padding: 10px 25px;
+  background: #0a3d62;
+  color: white;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+#admission-section .btn-primary:hover {
+  background: #062746;
+}
+  .map-container {
+  width: 100%;
+  margin-top: 30px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+#contact-section iframe {
+  width: 100%;
+  height: 400px;
+  border: 0;
+}
+.admission-box ul {
+  padding-left: 20px;
+  list-style-position: inside;
+}
+
+.admission-box li {
+  margin-bottom: 6px;
+}
+  #ple-section {
+  padding: 50px 20px;
+  text-align: center;
+}
+
+.ple-container {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+  margin-top: 25px;
+}
+
+.ple-card {
+  background: #f9f9f9;
+  padding: 20px;
+  border-radius: 15px;
+  width: 200px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+.ple-card img {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 4px solid #0a3d62;
+  margin-bottom: 12px;
+}
+
+.ple-card h4 {
+  margin: 5px 0;
+  color: #0a3d62;
+}
+
+.ple-card p {
+  font-size: 15px;
+}
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+
+
+<!-- MAIN CONTENT -->
+<div class="content">
+
+  <!-- SECTION 1: Slider -->
+  <section id="slider-section">
+    <div class="section-content">
+      <header>
+  <div class="top-header">
+    <img src="logo.jpg" alt="Logo" class="school-logo">
+    <div class="school-name animate-left">Zamzam Islamic Primary School</div>
+  </div>
+</header>
+      <!-- <h2>Curriculum & Circular Studies</h2> -->
+      <div class="slider-container">
+        <div class="slide fade">
+          <img src="c1.jpg" alt="">
+          <div class="slide-text">Balanced curriculum integrating Islamic and modern academics.</div>
+        </div>
+        <div class="slide fade">
+          <img src="c2.jpg" alt="">
+          <div class="slide-text">Circular studies to develop leadership and teamwork skills.</div>
+        </div>
+        <div class="slide fade">
+          <img src="c3.jpg" alt="">
+          <div class="slide-text">Activities for creativity, critical thinking, and holistic growth.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 2: Welcome -->
+<section id="welcome-section">
+  <div class="section-content">
+    <h2>Welcome</h2>
+
+    <p class="animate-left">
+      Welcome to Zamzam Islamic Primary School, where quality education is nurtured alongside strong Islamic values.
+      We provide a safe, caring, and faith-guided learning environment that supports the academic, moral, and spiritual growth of every child.
+      We partner with parents to raise disciplined, confident learners grounded in knowledge and good character.
+    </p>
+
+    <h3 style="color:#0a3d62">Mission</h3>
+    <p class="animate-left">
+      To provide quality Islamic and modern education in a safe and nurturing environment.
+    </p>
+
+    <h3 style="color:#0a3d63">Vision</h3>
+    <p class="animate-left">
+      To produce confident, knowledgeable, and morally upright students.
+    </p>
+
+    <h4 style="color:#0a3d63">Find More</h4>
+
+    <div class="about-images">
+
+      <h5 style="color:orange;text-align:center;">Teaching</h5>
+      <img src="w1.jpg" alt="Teaching">
+      <p class="animate-left" style="text-align:center;">
+        Our teaching approach combines strong Islamic values with modern academic excellence.
+      </p>
+
+      <h5 style="color:orange;text-align:center;">Feeding</h5>
+      <img src="w2.jpg" alt="Feeding">
+      <p class="animate-left" style="text-align:center;">
+        We provide well-balanced and nutritious meals to support learners’ health and concentration.
+      </p>
+
+      <h5 style="color:orange;text-align:center;">School van</h5>
+      <img src="schoolvan.jpg" alt="schoolvan">
+      <p class="animate-left" style="text-align:center;">
+        We provide safe and reliable school transport using well-maintained vans driven by experienced drivers. Our transport service ensures pupils arrive at school and return home on time and safely.
+      </p> 
+
+
+
+      <h5 style="color:orange;text-align:center;">Classrooms</h5>
+      <img src="w5.jpg" alt="Classes">
+      <p class="animate-left" style="text-align:center;">
+        Clean and well-equipped classrooms create a focused learning environment.
+      </p>
+
+      <h5 style="color:orange;text-align:center;">Boarding</h5>
+      <img src="boarding.jpg" alt="Boarding">
+      <p class="animate-left" style="text-align:center;">
+        Our boarding facilities provide a safe, supervised, and Islamic-centered environment.
+      </p>
+      
+       <h5 style="color:orange;text-align:center;">e-learning</h5>
+      <img src="e-learning.jpg" alt="e-learning">
+      <p class="animate-left" style="text-align:center;">
+        Our E-Learning program enhances classroom teaching through the use of digital learning tools and guided online resources. Learners access structured lessons, revision materials, and educational content that support continuous learning both at school and at home.
+      </p>
+
+    </div>
+  </div>
+</section>
+
+  <!-- SECTION 3: Co-Curricular -->
+<section id="activities-section">
+  <div class="section-content">
+    <h2>Co-Curricular Activities</h2>
+    <p>Our students enjoy a variety of activities beyond academics, including football, swimming, and Quran recitation, helping develop teamwork, discipline, and personal growth.</p>
+
+    <div class="activities-container">
+      <div class="activity-card">
+        <img src="football.jpg" alt="Football">
+        <div class="activity-name">Football</div>
+      </div>
+      <div class="activity-card">
+        <img src="swimming.jpg" alt="Swimming">
+        <div class="activity-name">Swimming</div>
+      </div>
+      <div class="activity-card">
+        <img src="quran.jpg" alt="Quran Recitation">
+        <div class="activity-name">Quran Recitation</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+  <!-- SECTION 4: School Tours -->
+  <section id="activities-section">
+    <div class="section-content">
+      <h2>School Tours</h2>
+      <p>Explore the exciting tours our students have participated in.</p>
+   <div class="activities-container">
+      <div class="activity-card">
+        <img src="zoo.jpg" alt="zoo">
+        <div class="activity-name">Zoo</div>
+      </div>
+    </div>
+      <div class="activities-container">
+      <div class="activity-card">
+        <img src="bahai.jpg" alt="bahai temple">
+        <div class="activity-name">Bahai Temple</div>
+      </div>
+  </section>
+      <!-- Ple section-->
+<section id="results-section">
+  <div class="section-content">
+    <h2>Academic Excellence</h2>
+    <p>Our strong academic foundation continues to deliver outstanding results.</p>
+
+    <div class="ple-container">
+      <div class="ple-card">
+        <img src="ple.jpg" alt="PLE Candidate" class="ple-img">
+        <h4>Sekitto Rayan</h4>
+        <p><strong>5 Aggregates</strong></p>
+      </div>
+
+      <div class="ple-card">
+        <img src="ple2.jpg" alt="PLE Candidate" class="ple-img">
+        <h4>Nakibuuka hajara</h4>
+        <p><strong>4 Aggregates</strong></p>
+      </div>
+    </div>
+
+    <p style="margin-top:20px; font-weight:500;">
+      In the 2025 Primary Leaving Examinations, <strong>27 learners attained First Grades</strong> and
+      <strong>3 learners attained Second Grades</strong> out of <strong>30 candidates</strong> who sat for PLE.
+    </p>
+
+    <p style="margin-top:10px;">
+      This performance reflects our commitment to academic excellence, discipline, and dedicated teaching.
+    </p>
+  </div>
+</section>
+      <!--theology section -->
+
+        
+  <!-- SECTION 5: Admissions -->
+<section id="admission-section">
+  <div class="section-content">
+    <h2 style="font-weight:1000px; font-size:35px;">Admissions</h2>
+
+    <p style="text-align:center; font-weight:500;">
+      Admission Fee: <strong>UGX 25,000</strong>
+    </p>
+
+    <details class="admission-box">
+      <summary>P.1 – P.3 Fees & Requirements</summary>
+      <ul>
+        <li>School Fees: UGX 350,000</li>
+        <li>Uniform (All): UGX 165,000</li>
+        <li>Medical Fee: UGX 10,000</li>
+        <li>Development Fee: UGX 30,000</li>
+        <li>Basic Requirements: UGX 25,000</li>
+        <li>Food: UGX 55,000</li>
+        <li><strong>Requirements:</strong> Books, Ruler, Brooms</li>
+      </ul>
+    </details>
+
+    <details class="admission-box">
+      <summary>P.4 – P.5 Fees & Requirements</summary>
+      <ul>
+        <li>School Fees: UGX 380,000</li>
+        <li>Uniform (All): UGX 195,000</li>
+        <li>Medical Fee: UGX 10,000</li>
+        <li>Development Fee: UGX 20,000</li>
+        <li>Basic Requirements: UGX 25,000</li>
+        <li>Food: UGX 55,000</li>
+        <li><strong>Requirements:</strong> Books Set, Ruler, Brooms</li>
+      </ul>
+    </details>
+
+    <details class="admission-box">
+      <summary>P.6 – P.7 Fees & Requirements</summary>
+      <ul>
+        <li>School Fees: UGX 400,000</li>
+        <li>Uniform (All): UGX 195,000</li>
+        <li>Medical Fee: UGX 10,000</li>
+        <li>Development Fee: UGX 20,000</li>
+        <li>Basic Requirements: UGX 25,000</li>
+        <li>Food: UGX 55,000</li>
+        <li><strong>Requirements:</strong> Books Set, Ruler, Brooms</li>
+      </ul>
+    </details>
+
+    <p style="font-weight:700; text-align:center; margin-top:20px;">
+      Join Zamzam Islamic Primary School and be part of our family of learners.
+    </p>
+
+    <button onclick="document.querySelector('#contact-section').scrollIntoView({ behavior: 'smooth' });"
+      style="display:inline-block; padding:10px 22px; background:#0a3d62; color:#fff; border:none; border-radius:25px; cursor:pointer;">
+      Enroll Now
+    </button>
+  </div>
+</section>
+  <!-- SECTION 6: Contact -->
+  <section id="contact-section">
+    <div class="section-content">
+      <h2>Contact Us</h2>
+      <p class="animate-left">location: Nabweru-lugoba road,Nabweru South Zone near ,Nansana</p>
+      <p class="animate-left">Phone: +256 761 330 335</p>
+      <p class="animate-left">Whatsapp: +256 708 370 617 </p>
+      <p class="animate-left">Email: info@ZamzamIslamicsch.com</p>
+        <p class="animate-left">Open:  Monday - saturday 8am - 6pm</p>
+
+    </div>
+     <!-- Google Map Embed -->
+<div class="map-container">
+  <iframe
+    src="https://www.google.com/maps?q=Zamzam+Islamic+Primary+School+Bwaise+Nabweru+Wakiso+Uganda&output=embed"
+    width="100%"
+    height="400"
+    style="border:0; border-radius:12px;"
+    allowfullscreen=""
+    loading="lazy"
+    referrerpolicy="no-referrer-when-downgrade">
+  </iframe>
+</div>
+  </section>
+
+</div>
+
+<!-- FOOTER -->
+
+<!-- FOOTER -->
+<!-- FOOTER -->
+<!-- FOOTER -->
+<section id="footer-section" class="footer-section">
+  <footer>
+    <div class="section-content">
+      <p>📍 Nabweru, Nansana-Wakiso</p>
+      <p style="font-size: 12px;">📞 +256 708 370 617 , +256 761 330 335</p>
+      
+      <p>✉ info@ZamzamIslamicsch.com</p>
+      <p>&copy; 2026 Zamzam Islamic primary School</p>
+    </div>
+  </footer>
+</section>
+<!-- SCRIPTS -->
+<script>
+// Sidebar toggle
+const sidebar = document.getElementById("sidebar");
+function toggleNav(){ sidebar.classList.toggle("active"); }
+function closeNav(){ sidebar.classList.remove("active"); }
+
+// Slider
+let slideIndex = 0;
+function showSlides(){
+  const slides = document.getElementsByClassName("slide");
+  for(let i=0;i<slides.length;i++){ slides[i].style.display="none"; }
+  slideIndex++;
+  if(slideIndex>slides.length){slideIndex=1;}
+  slides[slideIndex-1].style.display="block";
+  setTimeout(showSlides,4000);
+}
+showSlides();
+
+// Animate on scroll every time
+const observerOptions = { threshold: 0.2 };
+const observer = new IntersectionObserver((entries)=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      const content = entry.target.querySelectorAll('.section-content, .about-images img, .tours-images img, .slide-text');
+      content.forEach(el=>{
+        el.style.opacity="1";
+        el.style.transform="translateY(0) scale(1)";
+      });
+    } else {
+      const content = entry.target.querySelectorAll('.section-content, .about-images img, .tours-images img, .slide-text');
+      content.forEach(el=>{
+        el.style.opacity="0";
+        el.style.transform="translateY(20px) scale(0.95)";
+      });
+    }
+  });
+}, observerOptions);
+// Animate left elements
+const leftElements = document.querySelectorAll('.animate-left');
+
+const leftObserver = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if(entry.isIntersecting){
+      entry.target.classList.add('in-view');
+    } else {
+      entry.target.classList.remove('in-view'); // re-trigger on scroll
+    }
+  });
+}, { threshold: 0.2 });
+
+leftElements.forEach(el => leftObserver.observe(el));
+document.querySelectorAll('section').forEach(sec=>observer.observe(sec));
+</script>
+
+</body>
+</html>
